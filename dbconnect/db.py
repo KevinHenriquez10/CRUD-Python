@@ -4,11 +4,11 @@ from mysql.connector import Error
 class DAO():
     def __init__(self):
         try:
-            self.conexion = mysql.connector.connect(user='KevCode', 
-            password='KevCodeUniversidad', 
-            host='universidad.csgqzknx8bvo.us-east-1.rds.amazonaws.com', 
-            database='Universidad', 
-            port='3306')
+            self.conexion = mysql.connector.connect(user='xxxxxxxxxxxxxxx', 
+            password='xxxxxxxxxxxxxxxxx', 
+            host='xxxxxxxxxxxxxxxxxxxxxxxxx', 
+            database='xxxxxxxxxxxx', 
+            port='xxxxxx')
 
         except Error as ex:
             print('Error en la conexion con la base de datos: {0}'.format(ex))
