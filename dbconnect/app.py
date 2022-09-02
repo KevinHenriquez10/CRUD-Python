@@ -10,18 +10,22 @@ def menuPrincipal():
             print("|*******************************************************************************************************|\n"
             "|*********************     Bienvenido a su software de peliculas y series online    ********************|\n"
             "|*********************                                                              ********************|\n"
-            "|*********************                 1. Listar Titulos.                           ********************|\n"
-            "|*********************                 2. Agregar Titulos.                          ********************|\n"
-            "|*********************                 3. Modificar Titulos.                        ********************|\n"
-            "|*********************                 4. Eliminar Titulos.                         ********************|\n"
-            "|*********************                 5. Salir.                                    ********************|\n"
+            "|*********************                 1. Listar Alumnos.                           ********************|\n"
+            "|*********************                 2. Listar Profesores.                        ********************|\n"
+            "|*********************                 3. Agregar Alumnos.                          ********************|\n"
+            "|*********************                 4. Agregar Profesores.                       ********************|\n"
+            "|*********************                 5. Actualizar Alumnos.                       ********************|\n"
+            "|*********************                 6. Actualizar Profesores.                    ********************|\n"
+            "|*********************                 7. Eliminar Alumnos.                         ********************|\n"
+            "|*********************                 8. Eliminar Profesores.                      ********************|\n"
+            "|*********************                 9. Salir.                                    ********************|\n"
             "|*********************                                                              ********************|\n"
             "|*******************************************************************************************************|")
             opcion = int(input("Ingrese la opción a seleccionar: "))
-            if opcion <1 or opcion >5:
+            if opcion <1 or opcion >8:
                 os.system("cls")
                 print("La opción seleccionada no es correcta \n")
-            elif(opcion == 5):
+            elif(opcion == 9):
                 continuar = False
                 os.system("cls")
                 print("Gracias por usar nuestra app!")
@@ -36,26 +40,41 @@ def ejecutarOpcion(opcion):
         dao = DAO()
         fun = funciones
         if opcion == 1:
-            lista = dao.listar()
-            fun.listarTitulos(lista)
+            lista = dao.listarAlumnos()
+            fun.listarAlumnos(lista)
         elif opcion == 2:
-            titulo = funciones.getTitulo()
-            dao.registrar(titulo)
+            lista = dao.listarProfesores()
+            fun.listarProfesores(lista)
         elif opcion == 3:
-            titulo = funciones.getTitulo()
-            dao.actualizar(titulo)
+            alumno = funciones.getAlumno()
+            dao.registrarAlumno(alumno)
         elif opcion == 4:
-            cod = input("Ingrese el codigo del titulo a eliminar: ")
-            codigo = funciones.validarCodigo(cod)
-            lista = dao.listar()
-            for li in lista:
-                print(li)
-                if int(codigo) == li[1]:
-                    print(cod)
-                    dao.eliminar(codigo)
-                    return False
-            print("EL titulo no se encuentra registrado en la base de datos! ")
-
+            profesor = funciones.getProfesor()
+            dao.registrarProfesor(profesor)
+        elif opcion == 5:
+            alumno = funciones.getAlumno()
+            id = int(input("Ingrese el id del alumno a actualizar: "))
+            dao.actualizarAlumno(alumno, id)
+        elif opcion == 6:
+            profesor = funciones.getProfesor()
+            id = int(input("Ingrese el id del profesor a actualizar: "))
+            dao.actualizarProfesor(profesor, id)
+        elif opcion == 7:
+            id = int(input("Ingrese el id del alumno a eliminar: "))
+            lista = dao.listarAlumnos()
+            for alumno in lista:
+                if(alumno[0] == id):
+                    dao.eliminarAlumno(id)
+                else:
+                    print("No se encontró el alumno a eliminar!")
+        elif opcion == 8:
+            id = int(input("Ingrese el id del profesor a eliminar: "))
+            lista = dao.listarProfesores()
+            for profesor in lista:
+                if(profesor[0] == id):
+                    dao.eliminarProfesor(id)
+                else:
+                    print("No se encontró el profesor a eliminar!")
 
 menuPrincipal()
 
