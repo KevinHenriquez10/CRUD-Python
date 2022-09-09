@@ -17,9 +17,9 @@ class DAO():
         if self.conexion.is_connected():
             try:
                 cursor=self.conexion.cursor()
-                cursor.execute("SELECT * FROM Alumno ORDER BY apellido ASC")
-                resultados = cursor.fetchall()
-                return resultados
+                cursor.callproc('listar_alumnos')
+                for result in cursor.stored_results():
+                    return result.fetchall()
             except Error as ex:
                 print('Error al listar los estudiantes: {0}'.format(ex))
 
@@ -27,9 +27,9 @@ class DAO():
         if self.conexion.is_connected():
             try:
                 cursor=self.conexion.cursor()
-                cursor.execute("SELECT * FROM Profesor ORDER BY apellido ASC")
-                resultados = cursor.fetchall()
-                return resultados
+                cursor.callproc('listar_profesores')
+                for result in cursor.stored_results():
+                    return result.fetchall()
             except Error as ex:
                 print('Error al listar los profesores: {0}'.format(ex))
 
@@ -37,8 +37,7 @@ class DAO():
         if self.conexion.is_connected():
             try:
                 cursor = self.conexion.cursor()
-                query = "INSERT INTO Alumno (nombre, apellido, fecha_nacimiento, tipo_identificacion, direccion, telefono, email) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}')"
-                cursor.execute(query.format(alumno[0], alumno[1], alumno[2], alumno[3], alumno[4], alumno[5], alumno[6]))
+                cursor.callproc('registrar_alumno', (alumno[0], alumno[1], alumno[2], alumno[3], alumno[4], alumno[5], alumno[6], alumno[7]))
                 self.conexion.commit()
                 print("Estudiante creado satisfactoriamente! \n")
             except Error as ex:
@@ -48,19 +47,17 @@ class DAO():
         if self.conexion.is_connected():
             try:
                 cursor = self.conexion.cursor()
-                query = "INSERT INTO Profesor (nombre, apellido, fecha_nacimiento, tipo_identificacion, direccion, telefono, email) VALUES ('{0}', '{1}', '{2}', '{3}', '{4}', '{5}', '{6}')"
-                cursor.execute(query.format(profesor[0], profesor[1], profesor[2], profesor[3], profesor[4], profesor[5], profesor[6]))
+                cursor.callproc('registrar_profesor', (profesor[0], profesor[1], profesor[2], profesor[3], profesor[4], profesor[5], profesor[6], profesor[7]))
                 self.conexion.commit()
-                print("Estudiante creado satisfactoriamente! \n")
+                print("Profesor creado satisfactoriamente! \n")
             except Error as ex:
-               print('Error al registrar el estudiante: {0}'.format(ex)) 
+               print('Error al registrar el profesor: {0}'.format(ex)) 
 
     def eliminarAlumno(self, id):
         if self.conexion.is_connected():
             try:
                 cursor = self.conexion.cursor()
-                query = "DELETE FROM Alumno WHERE id = {0}"
-                cursor.execute(query.format(id))
+                cursor.callproc('eliminar_alumno', (id,))
                 self.conexion.commit()
                 print("Estudiante eliminado con exito! \n")
             except Error as ex:
@@ -70,8 +67,7 @@ class DAO():
         if self.conexion.is_connected():
             try:
                 cursor = self.conexion.cursor()
-                query = "DELETE FROM Profesor WHERE id = {0}"
-                cursor.execute(query.format(id))
+                cursor.callproc('eliminar_profesor', (id,))
                 self.conexion.commit()
                 print("Profesor eliminado con exito! \n")
             except Error as ex:
@@ -81,8 +77,7 @@ class DAO():
         if self.conexion.is_connected():
             try:
                 cursor = self.conexion.cursor()
-                query = "UPDATE Alumno SET nombre='{0}', apellido='{1}', fecha_nacimiento='{2}', tipo_identificacion='{3}', identificacion='{4}', direccion='{5}', telefono='{6}', email='{7}' WHERE id='{8}'"
-                cursor.execute(query.format(alumno[0], alumno[1], alumno[2], alumno[3], alumno[4], alumno[5], alumno[6], alumno[7], id))
+                cursor.callproc('actualizar_alumno',(alumno[0], alumno[1], alumno[2], alumno[3], alumno[4], alumno[5], alumno[6], alumno[7], id))
                 self.conexion.commit()
                 print("Alumno actualizado satisfactoriamente! \n")
             except Error as ex:
@@ -92,8 +87,7 @@ class DAO():
         if self.conexion.is_connected():
             try:
                 cursor = self.conexion.cursor()
-                query = "UPDATE Profesor SET nombre='{0}', apellido='{1}', fecha_nacimiento='{2}', tipo_identificacion='{3}', identificacion='{4}', direccion='{5}', telefono='{6}', email='{7}' WHERE id='{8}'"
-                cursor.execute(query.format(profesor[0], profesor[1], profesor[2], profesor[3], profesor[4], profesor[5], profesor[6], profesor[7], id))
+                cursor.callproc('actualizar_profesor',(profesor[0], profesor[1], profesor[2], profesor[3], profesor[4], profesor[5], profesor[6], profesor[7], id))
                 self.conexion.commit()
                 print("Profesor actualizado satisfactoriamente! \n")
             except Error as ex:
