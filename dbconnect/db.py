@@ -13,6 +13,10 @@ class DAO():
         except Error as ex:
             print('Error en la conexion con la base de datos: {0}'.format(ex))
 
+
+#------------------------------        ALUMNOS        ------------------------------#
+
+
     def listarAlumnos(self):
         if self.conexion.is_connected():
             try:
@@ -59,6 +63,10 @@ class DAO():
                     print("Estudiante eliminado con exito! \n")
                 except Error as ex:
                     print('Error al eliminar el estudiante: {0}'.format(ex))
+
+
+#------------------------------        PROFESORES        ------------------------------#
+
 
     def listarProfesores(self):
         if self.conexion.is_connected():
@@ -107,6 +115,10 @@ class DAO():
                 except Error as ex:
                     print('Error al eliminar el profesor: {0}'.format(ex))
 
+
+#------------------------------        CURSOS        ------------------------------#
+
+
     def listarCursos(self):
         if self.conexion.is_connected():
             try:
@@ -152,6 +164,10 @@ class DAO():
                     print("Curso eliminado con exito! \n")
                 except Error as ex:
                     print('Error al eliminar el curso: {0}'.format(ex))
+
+
+#------------------------------        PERIODOS        ------------------------------#
+
 
     def listarPeriodos(self):
         if self.conexion.is_connected():

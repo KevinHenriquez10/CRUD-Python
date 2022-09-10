@@ -1,6 +1,4 @@
 import datetime
-import os
-
 from db import DAO
 
 class funciones:
@@ -34,6 +32,7 @@ class funciones:
                     valido = True
                     return codigo
 
+# Función para garantizar que la información suministrada por el usuario sea idonea para crear un alumno(a).
     def getAlumno():
         nombre = input("Ingrese el nombre del alumno: ")
         apellido = input("Ingrese el apellido del alumno: ")
@@ -61,7 +60,8 @@ class funciones:
 
         alumno = (nombre, apellido, fecha_nacimiento, tipo_identificacion, identificacion, direccion, telefono, email)
         return alumno
-    
+
+# Función para garantizar que la información suministrada por el usuario sea idonea para crear un profesor(a).   
     def getProfesor():
         nombre = input("Ingrese el nombre del profesor: ")
         apellido = input("Ingrese el apellido del profesor: ")
@@ -89,7 +89,8 @@ class funciones:
 
         profesor = (nombre, apellido, fecha_nacimiento, tipo_identificacion, identificacion, direccion, telefono, email)
         return profesor
-    
+
+# Función para garantizar que la información suministrada por el usuario sea idonea para crear un curso.    
     def getCurso():
         codigo = input("Ingrese el codigo del curso: ")
         valido=False
@@ -104,6 +105,7 @@ class funciones:
         curso = (codigo, nombre, creditos)
         return curso
 
+# Función para garantizar que la información suministrada por el usuario sea idonea para crear un periodo.
     def getPeriodo():
         dao = DAO()
         fun = funciones
@@ -126,7 +128,8 @@ class funciones:
                 fecha_inicio = str(input("Fecha incorrecta, el formato debe ser así ('YYYY-MM-DD')(2000-12-31): "))
         periodo = (idCurso, idAlumno, idProfesor, fecha_inicio)
         return periodo
-    
+
+# Función para imprimir los alumnos por consola de manera organizada.    
     def listarAlumnos(lista):
         print("Alumnos: \n")
         cont = 1
@@ -139,6 +142,7 @@ class funciones:
                 cont +=1
                 print(" ")
 
+# Función para imprimir los profesores por consola de manera organizada.    
     def listarProfesores(lista):
         print("Profesores: \n")
         cont = 1
@@ -151,6 +155,7 @@ class funciones:
                 cont +=1
                 print(" ")
 
+# Función para imprimir los cursos por consola de manera organizada.    
     def listarCursos(lista):
         print("Cursos: \n")
         cont = 1
@@ -163,6 +168,7 @@ class funciones:
                 cont +=1
                 print(" ")
 
+# Función para imprimir los periodos por consola de manera organizada.    
     def listarPeriodos(lista):
         print("Periodos: \n")
         cont = 1
@@ -175,6 +181,7 @@ class funciones:
                 cont +=1
                 print(" ")
 
+#Función que recibe un parametro y/o argumento para listar el menú que gestiona los estudiantes y/o alumnos.
     def menuEstudiantes(opcion):
         dao = DAO()
         fun = funciones
@@ -205,6 +212,7 @@ class funciones:
             if(estado == False):
                 print("No se encontró el alumno a eliminar!")
 
+#Función que recibe un parametro y/o argumento para listar el menú que gestiona los profesores.
     def menuProfesores(opcion):
         dao = DAO()
         fun = funciones
@@ -234,7 +242,8 @@ class funciones:
                     break
             if(estado==False):
                 print("No se encontró el profesor a eliminar!")
-    
+
+#Función que recibe un parametro y/o argumento para listar el menú que gestiona los cursos.
     def menuCursos(opcion):
         dao = DAO()
         fun = funciones
@@ -264,6 +273,7 @@ class funciones:
             if(estado == False):
                 print("No se encontró el curso a eliminar!")
 
+#Función que recibe un parametro y/o argumento para listar el menú que gestiona los periodos.
     def menuPeriodos(opcion):
         dao = DAO()
         fun = funciones
