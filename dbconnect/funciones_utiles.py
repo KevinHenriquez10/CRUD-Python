@@ -23,7 +23,7 @@ class funciones:
         self.telefono=vTelefono
         self.email = vEmail
     
-    """def validarCodigo(codigo):
+    def validarCodigo(codigo):
         if(codigo.isnumeric() and len(codigo) == 6):
             return codigo
         else:
@@ -32,7 +32,7 @@ class funciones:
                 codigo = input("Ingrese un codigo valido (numeros de 6 digitos): ")
                 if(codigo.isnumeric() and len(codigo) == 6):
                     valido = True
-                    return codigo"""
+                    return codigo
 
     def getAlumno():
         nombre = input("Ingrese el nombre del alumno: ")
@@ -90,6 +90,43 @@ class funciones:
         profesor = (nombre, apellido, fecha_nacimiento, tipo_identificacion, identificacion, direccion, telefono, email)
         return profesor
     
+    def getCurso():
+        codigo = input("Ingrese el codigo del curso: ")
+        valido=False
+        while not valido:
+            try:
+                if(codigo.isnumeric() and len(codigo)==6):
+                    valido=True
+            except ValueError:
+                codigo = input("Ingrese el codigo del curso: ")
+        nombre = input("Ingrese el nombre del curso: ")
+        creditos = input("Ingrese los creditos del curso: ")
+        curso = (codigo, nombre, creditos)
+        return curso
+
+    def getPeriodo():
+        dao = DAO()
+        fun = funciones
+        lista = dao.listarCursos()
+        fun.listarCursos(lista)
+        idCurso = input("Ingrese el identificador del curso: ")
+        lista = dao.listarAlumnos()
+        fun.listarAlumnos(lista)
+        idAlumno = input("Ingrese el identificador del alumno: ")
+        lista = dao.listarProfesores()
+        fun.listarProfesores(lista)
+        idProfesor = input("Ingrese el identificador del profesor: ")
+        fecha_inicio = str(input("Ingrese la fecha de inicio ('YYYY-MM-DD'): "))
+        valido=False
+        while not valido:
+            try:
+                datetime.datetime.strptime(fecha_inicio, '%Y-%m-%d').date()
+                valido=True
+            except ValueError:
+                fecha_inicio = str(input("Fecha incorrecta, el formato debe ser así ('YYYY-MM-DD')(2000-12-31): "))
+        periodo = (idCurso, idAlumno, idProfesor, fecha_inicio)
+        return periodo
+    
     def listarAlumnos(lista):
         print("Alumnos: \n")
         cont = 1
@@ -114,6 +151,30 @@ class funciones:
                 cont +=1
                 print(" ")
 
+    def listarCursos(lista):
+        print("Cursos: \n")
+        cont = 1
+        if(len(lista)==0):
+            print("No hay datos para mostrar...")
+        else:
+            for curso in lista:
+                datos = "{0}. id: {1} | Codigo: {2} | Nombre: {3} | Creditos: {4}"
+                print(datos.format(cont, curso[0], curso[1], curso[2], curso[3]))
+                cont +=1
+                print(" ")
+
+    def listarPeriodos(lista):
+        print("Periodos: \n")
+        cont = 1
+        if(len(lista)==0):
+            print("No hay datos para mostrar...")
+        else:
+            for periodo in lista:
+                datos = "{0}. id: {1} | Alumno: {2} | Profesor: {3} | Curso: {4} | Fecha de Inicio: {5}"
+                print(datos.format(cont, periodo[0], periodo[1], periodo[2], periodo[3], periodo[4]))
+                cont +=1
+                print(" ")
+
     def menuEstudiantes(opcion):
         dao = DAO()
         fun = funciones
@@ -125,11 +186,15 @@ class funciones:
             alumno = funciones.getAlumno()
             dao.registrarAlumno(alumno)
         elif opcion == 3:
+            lista = dao.listarAlumnos()
+            fun.listarAlumnos(lista)
             alumno = funciones.getAlumno()
             id = int(input("Ingrese el id del alumno a actualizar: "))
             dao.actualizarAlumno(alumno, id)
         elif opcion == 4:
             estado = False
+            lista = dao.listarAlumnos()
+            fun.listarAlumnos(lista)
             id = int(input("Ingrese el id del alumno a eliminar: "))
             lista = dao.listarAlumnos()
             for alumno in lista:
@@ -151,11 +216,15 @@ class funciones:
             profesor = funciones.getProfesor()
             dao.registrarProfesor(profesor)
         elif opcion == 3:
+            lista = dao.listarProfesores()
+            fun.listarProfesores(lista)
             profesor = funciones.getProfesor()
             id = int(input("Ingrese el id del profesor a actualizar: "))
             dao.actualizarProfesor(profesor, id)
         elif opcion == 4:
             estado=False
+            lista = dao.listarProfesores()
+            fun.listarProfesores(lista)
             id = int(input("Ingrese el id del profesor a eliminar: "))
             lista = dao.listarProfesores()
             for profesor in lista:
@@ -165,7 +234,62 @@ class funciones:
                     break
             if(estado==False):
                 print("No se encontró el profesor a eliminar!")
+    
+    def menuCursos(opcion):
+        dao = DAO()
+        fun = funciones
+        if opcion == 1:
+            lista = dao.listarCursos()
+            fun.listarCursos(lista)
+        elif opcion == 2:
+            alumno = funciones.getCurso()
+            dao.registrarCurso(alumno)
+        elif opcion == 3:
+            lista = dao.listarCursos()
+            fun.listarCursos(lista)
+            curso = funciones.getCurso()
+            id = int(input("Ingrese el id del curso a actualizar: "))
+            dao.actualizarCurso(curso, id)
+        elif opcion == 4:
+            estado = False
+            lista = dao.listarCursos()
+            fun.listarCursos(lista)
+            id = int(input("Ingrese el id del curso a eliminar: "))
+            lista = dao.listarCursos()
+            for curso in lista:
+                if(curso[0] == id):
+                    dao.eliminarCurso(id)
+                    estado = True
+                    break
+            if(estado == False):
+                print("No se encontró el curso a eliminar!")
 
+    def menuPeriodos(opcion):
+        dao = DAO()
+        fun = funciones
+        if opcion == 1:
+            lista = dao.listarPeriodos()
+            fun.listarPeriodos(lista)
+        elif opcion == 2:
+            periodo = funciones.getPeriodo()
+            dao.registrarPeriodo(periodo)
+        elif opcion == 3:
+            periodo = funciones.getPeriodo()
+            id = int(input("Ingrese el id del periodo a actualizar: "))
+            dao.actualizarPeriodo(periodo, id)
+        elif opcion == 4:
+            estado = False
+            lista = dao.listarPeriodos()
+            fun.listarPeriodos(lista)
+            id = int(input("Ingrese el id del periodo a eliminar: "))
+            lista = dao.listarPeriodos()
+            for periodo in lista:
+                if(periodo[0] == id):
+                    dao.eliminarPeriodo(id)
+                    estado = True
+                    break
+            if(estado == False):
+                print("No se encontró el periodo a eliminar!")
 
 
 

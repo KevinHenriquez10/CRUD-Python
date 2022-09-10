@@ -1,5 +1,4 @@
 import os
-from db import DAO
 from funciones_utiles import funciones
 
 def menuPrincipal():
@@ -13,14 +12,15 @@ def menuPrincipal():
             "|*********************                 1. Gestionar Alumnos.                        ********************|\n"
             "|*********************                 2. Gestionar Profesores.                     ********************|\n"
             "|*********************                 3. Gestionar Cursos.                         ********************|\n"
-            "|*********************                 4. Salir.                                    ********************|\n"
+            "|*********************                 4. Gestionar Periodos.                       ********************|\n"
+            "|*********************                 5. Salir.                                    ********************|\n"
             "|*********************                                                              ********************|\n"
             "|*******************************************************************************************************|")
             opcion = int(input("Ingrese la opción a seleccionar: "))
             if opcion <1 or opcion >4:
                 os.system("cls")
                 print("La opción seleccionada no es correcta \n")
-            elif(opcion == 4):
+            elif(opcion == 5):
                 continuar = False
                 os.system("cls")
                 print("Gracias por usar nuestra app!")
@@ -53,7 +53,6 @@ def ejecutarOpcion(opcion):
                 elif(opcion == 5):
                     continuar = False
                     os.system("cls")
-                    print("Gracias por usar nuestra app!")
                     break
                 else:
                     os.system("cls")
@@ -67,10 +66,10 @@ def ejecutarOpcion(opcion):
                 print("|*******************************************************************************************************|\n"
                 "|*********************     Bienvenido a su software educativo en linea              ********************|\n"
                 "|*********************                                                              ********************|\n"
-                "|*********************                 1. Listar Profesor.                           ********************|\n"
-                "|*********************                 2. Agregar Profesor.                          ********************|\n"
-                "|*********************                 3. Actualizar Profesor.                       ********************|\n"
-                "|*********************                 4. Eliminar Profesor.                         ********************|\n"
+                "|*********************                 1. Listar Profesor.                          ********************|\n"
+                "|*********************                 2. Agregar Profesor.                         ********************|\n"
+                "|*********************                 3. Actualizar Profesor.                      ********************|\n"
+                "|*********************                 4. Eliminar Profesor.                        ********************|\n"
                 "|*********************                 5. Menú Principal.                           ********************|\n"
                 "|*********************                                                              ********************|\n"
                 "|*******************************************************************************************************|")
@@ -94,10 +93,10 @@ def ejecutarOpcion(opcion):
                 print("|*******************************************************************************************************|\n"
                 "|*********************     Bienvenido a su software educativo en linea              ********************|\n"
                 "|*********************                                                              ********************|\n"
-                "|*********************                 1. Listar Profesor.                           ********************|\n"
-                "|*********************                 2. Agregar Profesor.                          ********************|\n"
-                "|*********************                 3. Actualizar Profesor.                       ********************|\n"
-                "|*********************                 4. Eliminar Profesor.                         ********************|\n"
+                "|*********************                 1. Listar Cursos.                            ********************|\n"
+                "|*********************                 2. Agregar Cursos.                           ********************|\n"
+                "|*********************                 3. Actualizar Cursos.                        ********************|\n"
+                "|*********************                 4. Eliminar Cursos.                          ********************|\n"
                 "|*********************                 5. Menú Principal.                           ********************|\n"
                 "|*********************                                                              ********************|\n"
                 "|*******************************************************************************************************|")
@@ -113,8 +112,36 @@ def ejecutarOpcion(opcion):
                 else:
                     os.system("cls")
                     opcionCorrecta=True
-                    ejecutarOpcion(opcion)
-
+                    funciones.menuCursos(opcion)
+    
+    if opcion==4:
+        continuar = True
+        while (continuar):
+            opcionCorrecta=False
+            while (not opcionCorrecta):
+                print("|*******************************************************************************************************|\n"
+                "|*********************     Bienvenido a su software educativo en linea              ********************|\n"
+                "|*********************                                                              ********************|\n"
+                "|*********************                 1. Listar Periodos.                          ********************|\n"
+                "|*********************                 2. Agregar Periodos.                         ********************|\n"
+                "|*********************                 3. Actualizar Periodos.                      ********************|\n"
+                "|*********************                 4. Eliminar Periodos.                        ********************|\n"
+                "|*********************                 5. Menú Principal.                           ********************|\n"
+                "|*********************                                                              ********************|\n"
+                "|*******************************************************************************************************|")
+                opcion = int(input("Ingrese la opción a seleccionar: "))
+                if opcion <1 or opcion >5:
+                    os.system("cls")
+                    print("La opción seleccionada no es correcta \n")
+                elif(opcion == 5):
+                    continuar = False
+                    os.system("cls")
+                    print("Gracias por usar nuestra app!")
+                    break
+                else:
+                    os.system("cls")
+                    opcionCorrecta=True
+                    funciones.menuPeriodos(opcion)
 
 
 menuPrincipal()
